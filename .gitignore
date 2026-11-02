@@ -1,0 +1,15 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+app/build/
+build/
+workingdir/
+/*.png
+/docs/LOW_RAM_M4B_PLAYBACK_AND_LOOPBACK_STREAMING.md

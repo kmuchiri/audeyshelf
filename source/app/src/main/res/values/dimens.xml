@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Spacing Units -->
+    <dimen name="spacing_base">4dp</dimen>
+    <dimen name="spacing_compact">4dp</dimen>
+    <dimen name="spacing_standard">8dp</dimen>
+    <dimen name="spacing_section">16dp</dimen>
+    <dimen name="spacing_major_section">24dp</dimen>
+    <dimen name="screen_horizontal_padding">16dp</dimen>
+
+    <!-- Touch Targets & Sizes -->
+    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="cover_max_display_size">280dp</dimen>
+    <dimen name="cover_row_size">56dp</dimen>
+
+    <!-- Icon Sizes -->
+    <dimen name="icon_small">20dp</dimen>
+    <dimen name="icon_standard">24dp</dimen>
+    <dimen name="icon_large_playback">32dp</dimen>
+
+    <!-- Typography -->
+    <dimen name="text_body">16sp</dimen>
+    <dimen name="text_secondary">14sp</dimen>
+    <dimen name="text_screen_title">20sp</dimen>
+    <dimen name="text_book_title">20sp</dimen>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand / Accent Colors -->
+    <!-- Action bar / primary (same as light mode): #601b3a -->
+    <color name="primary">#601B3A</color>
+    <!-- Status bar (same as light mode): #451028 -->
+    <color name="primary_dark">#451028</color>
+    <color name="status_bar">#451028</color>
+    <color name="accent">#C86B8C</color>
+    <color name="accent_pressed">#601B3A</color>
+    <color name="accent_light">#351724</color>
+    <color name="accent_cyan">#C86B8C</color>
+
+    <!-- Action Bar / Header (Dark Mode: Same as light mode #601b3a with #FFFFFF text and icons) -->
+    <color name="action_bar_background">#601B3A</color>
+    <!-- Text and icons on action bar: #FFFFFF -->
+    <color name="action_bar_text">#FFFFFF</color>
+    <color name="action_bar_icon">#FFFFFF</color>
+    <color name="header_orange">@color/action_bar_background</color>
+
+    <!-- Surfaces & Backgrounds -->
+    <!-- Dark-mode background: #181114 -->
+    <color name="window_background">#181114</color>
+    <!-- Dark-mode surface card: #281B21 -->
+    <color name="surface">#281B21</color>
+    <color name="surface_card">#281B21</color>
+    <color name="card_border">#3F2B34</color>
+    <color name="surface_elevated">#35232B</color>
+    <color name="player_background">#181114</color>
+
+    <!-- Mini Player -->
+    <color name="mini_player_bg">#22161C</color>
+    <color name="mini_player_border">#3F2B34</color>
+    <color name="mini_player_text">#F7EBEF</color>
+    <color name="mini_player_subtitle">#B59BA5</color>
+    <color name="mini_player_control">@color/mini_player_text</color>
+    <color name="mini_player_cover_bg">#35232B</color>
+
+    <!-- Typography -->
+    <!-- Dark-mode text: #F7EBEF -->
+    <color name="text_primary">#F7EBEF</color>
+    <color name="text_secondary">#B59BA5</color>
+    <color name="text_hint">#7E6971</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="player_text_primary">#F7EBEF</color>
+    <color name="player_text_secondary">#B59BA5</color>
+    <color name="player_control">#F7EBEF</color>
+
+    <!-- Dividers & Controls -->
+    <color name="divider">#3F2B34</color>
+    <color name="control_normal">#B59BA5</color>
+    <color name="control_highlight">#33601B3A</color>
+    <color name="progress_background">#3A2730</color>
+    <color name="settings_button_bg">#3F2B34</color>
+    <color name="settings_button_pressed">#543946</color>
+    <color name="settings_button_text">#F7EBEF</color>
+    <color name="button_neutral">@color/settings_button_bg</color>
+    <color name="button_neutral_pressed">@color/settings_button_pressed</color>
+    <color name="button_neutral_text">@color/settings_button_text</color>
+</resources>

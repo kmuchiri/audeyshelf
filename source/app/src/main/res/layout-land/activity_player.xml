@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/player_background"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+    <!-- Left Container: Switchable Cover Art OR Chapter List -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="9">
+
+        <!-- Mode A: Cover Art View -->
+        <LinearLayout
+            android:id="@+id/layoutPlayerCoverView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/ivPlayerCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_book_placeholder" />
+
+        </LinearLayout>
+
+        <!-- Mode B: Chapter List View -->
+        <LinearLayout
+            android:id="@+id/layoutPlayerChaptersView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp"
+            android:visibility="gone">
+
+            <ListView
+                android:id="@+id/lvPlayerChapters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/divider"
+                android:dividerHeight="1dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- Right Container: Details, Seek Bar, and Playback Controls -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="11">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp">
+
+            <!-- Chapter / Episode Title with text wrap (wraps into multiple lines when long) -->
+            <TextView
+                android:id="@+id/tvPlayerChapterTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="44dp"
+                android:layout_marginRight="44dp"
+                android:ellipsize="none"
+                android:singleLine="false"
+                android:textColor="@color/player_text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- Book Title on its own line -->
+            <TextView
+                android:id="@+id/tvPlayerBookSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/player_text_secondary"
+                android:textSize="16sp" />
+
+            <!-- Author on its own separate line -->
+            <TextView
+                android:id="@+id/tvPlayerAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/player_text_secondary"
+                android:textSize="15sp" />
+
+            <!-- Vertical flexible spacer -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Secondary Controls Row (Above Seek Bar: Sleep Timer, Bookmarks, Chapters) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 1. Sleep Timer / Countdown -->
+                <FrameLayout
+                    android:id="@+id/layoutPlayerSleepTimer"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivPlayerSleepTimer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Sleep Timer"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_timer"
+                        app:tint="@color/player_control" />
+
+                    <TextView
+                        android:id="@+id/tvPlayerSleepTimer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textColor="@color/accent"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+                <!-- 2. Bookmark Icon -->
+                <ImageView
+                    android:id="@+id/ivPlayerBookmark"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/bookmarks"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_bookmark"
+                    app:tint="@color/player_control" />
+
+                <!-- 3. Chapter Selector -->
+                <ImageView
+                    android:id="@+id/ivPlayerChapters"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/chapters"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_chapters"
+                    app:tint="@color/player_control" />
+
+            </LinearLayout>
+
+            <!-- Seek Bar -->
+            <SeekBar
+                android:id="@+id/sbPlayerProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="1000"
+                android:maxHeight="3dp"
+                android:minHeight="14dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:progress="0"
+                android:progressDrawable="@drawable/seekbar_progress"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb" />
+
+            <!-- Timestamps: Left (Current) and Right (Duration/Remaining) -->
+            <LinearLayout
+                android:id="@+id/layoutTimestamps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp">
+
+                <TextView
+                    android:id="@+id/tvPlayerCurrentTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/player_text_secondary"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvPlayerRemainingTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/player_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Main Playback Controls Row (Previous Chapter, Rewind, Play/Pause, Forward, Next Chapter) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 1. Previous Chapter -->
+                <ImageView
+                    android:id="@+id/ivPlayerPrevChapter"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/previous_chapter"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_previous_chapter"
+                    app:tint="@color/player_control" />
+
+                <!-- 2. Skip Back / Rewind 30 -->
+                <ImageView
+                    android:id="@+id/ivPlayerRewind"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/rewind_30"
+                    android:padding="4dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_skip_backward"
+                    app:tint="@color/player_control" />
+
+                <!-- 3. Play / Pause -->
+                <ImageView
+                    android:id="@+id/ivPlayerPlayPause"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1.2"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/play"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_play"
+                    app:tint="@color/player_control" />
+
+                <!-- 4. Skip Forward 30 -->
+                <ImageView
+                    android:id="@+id/ivPlayerForward"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/forward_30"
+                    android:padding="4dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_skip_forward"
+                    app:tint="@color/player_control" />
+
+                <!-- 5. Next Chapter -->
+                <ImageView
+                    android:id="@+id/ivPlayerNextChapter"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/next_chapter"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_next_chapter"
+                    app:tint="@color/player_control" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Options Button Pinned to Top Right of Player Screen in Landscape -->
+        <ImageView
+            android:id="@+id/ivPlayerOptions"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Options"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_more_vert"
+            android:visibility="gone"
+            app:tint="@color/player_control" />
+
+    </FrameLayout>
+
+</LinearLayout>

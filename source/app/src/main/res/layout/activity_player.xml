@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/player_background"
+    android:orientation="vertical">
+
+    <!-- Upper Switchable Area (Cover Art View OR Chapter List View) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Mode A: Cover Art View (Matching reference screenshot bdb68168.png) -->
+        <LinearLayout
+            android:id="@+id/layoutPlayerCoverView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Cover Art -->
+            <ImageView
+                android:id="@+id/ivPlayerCover"
+                android:layout_width="@dimen/cover_max_display_size"
+                android:layout_height="@dimen/cover_max_display_size"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_book_placeholder" />
+
+            <!-- Chapter / Episode Title -->
+            <com.audeyshelf.audiobook.ui.view.MarqueeTextView
+                android:id="@+id/tvPlayerChapterTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:textColor="@color/player_text_primary"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <!-- Book Title & Author Subtitle -->
+            <TextView
+                android:id="@+id/tvPlayerBookSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/player_text_secondary"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <!-- Mode B: Chapter List View (Matching reference screenshot 9ad651e3.png) -->
+        <LinearLayout
+            android:id="@+id/layoutPlayerChaptersView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ListView
+                android:id="@+id/lvPlayerChapters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/divider"
+                android:dividerHeight="1dp" />
+
+        </LinearLayout>
+
+        <!-- Options Button Pinned to Top Right of Player Screen -->
+        <ImageView
+            android:id="@+id/ivPlayerOptions"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Options"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_more_vert"
+            android:visibility="gone"
+            app:tint="@color/player_control" />
+
+    </FrameLayout>
+
+    <!-- Bottom Controls Area (Pinned to bottom, compact and space-efficient for small screens) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/player_background"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp">
+
+        <!-- Secondary Controls Row (Above Seek Bar: Sleep Timer, Bookmarks, Chapters) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 1. Sleep Timer / Countdown -->
+            <FrameLayout
+                android:id="@+id/layoutPlayerSleepTimer"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/ivPlayerSleepTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Sleep Timer"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_timer"
+                    app:tint="@color/player_control" />
+
+                <TextView
+                    android:id="@+id/tvPlayerSleepTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/accent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <!-- 2. Bookmark Icon -->
+            <ImageView
+                android:id="@+id/ivPlayerBookmark"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/bookmarks"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bookmark"
+                app:tint="@color/player_control" />
+
+            <!-- 3. Chapter Selector -->
+            <ImageView
+                android:id="@+id/ivPlayerChapters"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/chapters"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chapters"
+                app:tint="@color/player_control" />
+
+        </LinearLayout>
+
+        <!-- Seek Bar -->
+        <SeekBar
+            android:id="@+id/sbPlayerProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="1000"
+            android:maxHeight="3dp"
+            android:minHeight="14dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:progress="0"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:splitTrack="false"
+            android:thumb="@drawable/seekbar_thumb" />
+
+        <!-- Timestamps: Left (Current) and Right (Duration) -->
+        <LinearLayout
+            android:id="@+id/layoutTimestamps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/tvPlayerCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@color/player_text_secondary"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvPlayerRemainingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@color/player_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Main Playback Controls Row (Previous Chapter, Rewind, Play/Pause, Forward, Next Chapter) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 1. Previous Chapter -->
+            <ImageView
+                android:id="@+id/ivPlayerPrevChapter"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/previous_chapter"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_previous_chapter"
+                app:tint="@color/player_control" />
+
+            <!-- 2. Skip Back / Rewind 30 -->
+            <ImageView
+                android:id="@+id/ivPlayerRewind"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/rewind_30"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_skip_backward"
+                app:tint="@color/player_control" />
+
+            <!-- 3. Play / Pause (Center Large Button) -->
+            <ImageView
+                android:id="@+id/ivPlayerPlayPause"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/play"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_play"
+                app:tint="@color/player_control" />
+
+            <!-- 4. Skip Forward 30 -->
+            <ImageView
+                android:id="@+id/ivPlayerForward"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/forward_30"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_skip_forward"
+                app:tint="@color/player_control" />
+
+            <!-- 5. Next Chapter -->
+            <ImageView
+                android:id="@+id/ivPlayerNextChapter"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/next_chapter"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_next_chapter"
+                app:tint="@color/player_control" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

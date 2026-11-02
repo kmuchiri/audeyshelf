@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Plus / Minus speed control row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Minus Button (-) -->
+        <Button
+            android:id="@+id/btnSpeedMinus"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_button_accent_square"
+            android:text="−"
+            android:textColor="@color/text_on_primary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <!-- Current Speed Display Text -->
+        <TextView
+            android:id="@+id/tvSpeedValue"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1.0x"
+            android:textColor="@color/text_primary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <!-- Plus Button (+) -->
+        <Button
+            android:id="@+id/btnSpeedPlus"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_button_accent_square"
+            android:text="+"
+            android:textColor="@color/text_on_primary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Reset to 1.0x Normal button -->
+    <Button
+        android:id="@+id/btnSpeedReset"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Reset to 1.0x"
+        android:textColor="@color/accent"
+        android:textSize="14sp" />
+
+    <!-- OK / Done Button -->
+    <Button
+        android:id="@+id/btnSpeedDone"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_button_rounded"
+        android:text="@android:string/ok"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp" />
+
+</LinearLayout>

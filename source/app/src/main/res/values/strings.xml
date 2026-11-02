@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">audeyshelf</string>
+    <string name="library_title">Library</string>
+    <string name="player_title">Now Playing</string>
+    <string name="settings_title">Settings</string>
+    
+    <!-- Library UI -->
+    <string name="search_hint">Search audiobooks…</string>
+    <string name="continue_listening">Continue Listening</string>
+    <string name="no_audiobooks_found">No audiobooks found</string>
+    <string name="no_audiobooks_prompt">Tap here to choose your audiobook folder or copy .m4b files into your storage.</string>
+    <string name="choose_folder_button">Choose Folder</string>
+    <string name="change_folder">Change Folder</string>
+    <string name="rescan_library">Rescan</string>
+    <string name="stop_playback">Stop playback</string>
+    <string name="unknown_title">Untitled Audiobook</string>
+    <string name="unknown_author">Unknown Author</string>
+    <string name="single_chapter">Entire Book</string>
+    <string name="chapters_count">%d chapters</string>
+    <string name="duration_format">%s remaining</string>
+    <string name="progress_percentage">%d%% completed</string>
+    
+    <!-- Player UI -->
+    <string name="chapter_format">Chapter %1$d of %2$d</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="rewind_30">Rewind %d seconds</string>
+    <string name="forward_30">Forward %d seconds</string>
+    <string name="previous_chapter">Previous Chapter</string>
+    <string name="next_chapter">Next Chapter</string>
+    <string name="chapters">Chapters</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="add_bookmark">Add Bookmark</string>
+    <string name="speed">Speed</string>
+    
+    <!-- Bookmarks -->
+    <string name="bookmark_dialog_title">New Bookmark</string>
+    <string name="bookmark_hint">Bookmark label (optional)</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="bookmark_added">Bookmark added</string>
+    <string name="bookmark_deleted">Bookmark removed</string>
+    <string name="no_bookmarks">No bookmarks saved yet</string>
+    <string name="delete_bookmark_confirm">Delete this bookmark?</string>
+    
+    <!-- Settings UI -->
+    <string name="pref_category_storage">Audiobook Storage</string>
+    <string name="pref_root_folder_title">Audiobook Folder</string>
+    <string name="pref_root_folder_summary">Tap to choose the directory where your audiobooks are saved</string>
+    <string name="pref_rescan_title">Rescan Folder</string>
+    <string name="pref_rescan_summary">Refresh the library with any newly added files</string>
+    
+    <string name="pref_category_appearance">Appearance</string>
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_light">Light Mode</string>
+    <string name="pref_theme_dark">Dark Mode (Stak)</string>
+    <string name="pref_theme_system">Follow System</string>
+    
+    <string name="pref_category_playback">Playback</string>
+    <string name="pref_skip_duration_title">Skip Duration</string>
+    <string name="pref_skip_duration_10">10 seconds</string>
+    <string name="pref_skip_duration_15">15 seconds</string>
+    <string name="pref_skip_duration_30">30 seconds (Default)</string>
+    <string name="pref_skip_duration_60">60 seconds</string>
+    
+    <string name="pref_category_about">About</string>
+    <string name="pref_about_summary">Audeyshelf v1.0 • Legacy-optimized M4B and Audiobookshelf player for Android</string>
+    
+    <!-- Folder Picker -->
+    <string name="select_folder_title">Select Audiobook Folder</string>
+    <string name="select_current_folder">Select this folder</string>
+    <string name="parent_folder">Parent folder (..)</string>
+    <string name="folder_selected">Selected folder: %s</string>
+    
+    <!-- Permissions -->
+    <string name="storage_permission_required">Storage permission is required to find and play audiobooks on your device.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="notification_channel_name">Audiobook Playback</string>
+    <string name="notification_channel_description">Controls and status for active audiobook playback</string>
+
+    <!-- Button Control -->
+    <string name="pref_button_control_title">Button Control</string>
+    <string name="pref_button_control_summary">Headset / headphone button playback controls</string>
+    <string name="pref_enable_button_control">Enable Button Control</string>
+    <string name="pref_button_control_hint">Control playback with headset or headphone buttons</string>
+    <string name="pref_single_tap_title">One Tap</string>
+    <string name="pref_double_tap_title">Two Taps</string>
+    <string name="pref_triple_tap_title">Three Taps</string>
+
+    <string name="btn_action_play_pause">Play / Pause (Stop playback)</string>
+    <string name="btn_action_forward_10s">Forward 10 seconds</string>
+    <string name="btn_action_rewind_10s">Rewind 10 seconds</string>
+    <string name="btn_action_next_chapter">Jump chapter forward</string>
+    <string name="btn_action_prev_chapter">Jump chapter behind</string>
+    <string name="btn_action_pause_only">Pause playback only</string>
+    <string name="btn_action_none">None (Disabled)</string>
+    <string name="select_button_action">Select Action</string>
+
+    <!-- Navigation Drawer & Server Options -->
+    <string name="refresh">Refresh</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_server">Server</string>
+    <string name="nav_server_disconnected">Audiobookshelf: Not connected</string>
+    <string name="nav_server_connected">Connected: %s</string>
+    <string name="server_title">Server</string>
+    <string name="server_settings_title">Server Settings</string>
+    <string name="server_not_configured_title">Audiobookshelf Not Connected</string>
+    <string name="server_not_configured_desc">Connect to your Audiobookshelf server to view and browse audiobooks.</string>
+    <string name="server_connect_button">Connect to Server</string>
+    <string name="server_dialog_title">Audiobookshelf Server</string>
+    <string name="server_url_hint">Server URL (e.g. https://abs.example.com)</string>
+    <string name="server_username_hint">Username</string>
+    <string name="server_password_hint">Password</string>
+    <string name="server_connect">Connect</string>
+    <string name="server_disconnect">Disconnect</string>
+    <string name="status_on_device">✓ On Device</string>
+    <string name="status_not_on_device">☁ Not on Device</string>
+    <string name="loading_server_books">Loading server books…</string>
+    <string name="no_server_books_found">No books found in server library</string>
+    <string name="book_not_on_device_toast">This book is on the server. Download feature coming next!</string>
+</resources>
