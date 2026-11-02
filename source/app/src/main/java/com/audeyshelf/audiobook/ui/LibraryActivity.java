@@ -1523,7 +1523,12 @@ public class LibraryActivity extends AppCompatActivity implements PlaybackListen
                     }
 
                     updateDrawerServerStatus();
-                    dialog.dismiss();
+                    try {
+                        if (dialog.isShowing() && !isFinishing()) {
+                            dialog.dismiss();
+                        }
+                    } catch (Throwable ignored) {
+                    }
                     Toast.makeText(LibraryActivity.this, "Connected successfully!", Toast.LENGTH_SHORT).show();
 
                     if (currentViewMode == VIEW_MODE_SERVER) {

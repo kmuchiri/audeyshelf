@@ -151,7 +151,7 @@ public class ServerAudiobookGridAdapter extends BaseAdapter {
         InputStream is = null;
         try {
             URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
+            conn = com.audeyshelf.audiobook.net.AudiobookshelfClient.openConnection(url);
             conn.setConnectTimeout(8000);
             conn.setReadTimeout(12000);
             conn.setDoInput(true);

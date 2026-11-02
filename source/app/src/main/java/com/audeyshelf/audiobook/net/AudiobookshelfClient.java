@@ -18,16 +18,19 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Lightweight REST client for Audiobookshelf API.
@@ -38,6 +41,22 @@ public class AudiobookshelfClient {
     private static final String TAG = "AudiobookshelfClient";
     private static final int CONNECT_TIMEOUT_MS = 15000;
     private static final int READ_TIMEOUT_MS = 30000;
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
+
+    public static HttpURLConnection openConnection(String urlStr) throws IOException {
+        return openConnection(new URL(urlStr));
+    }
+
+    public static HttpURLConnection openConnection(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP && conn instanceof HttpsURLConnection) {
+            try {
+                ((HttpsURLConnection) conn).setSSLSocketFactory(new TLSSocketFactory());
+            } catch (Throwable ignored) {
+            }
+        }
+        return conn;
+    }
 
     private static volatile List<Audiobook> cachedServerBooks = new ArrayList<>();
 
@@ -153,7 +172,7 @@ public class AudiobookshelfClient {
                 }
                 String cleanBase = normalizeUrl(serverUrl);
                 String itemUrlStr = cleanBase + "/api/items/" + itemId + "?expanded=1";
-                conn = (HttpURLConnection) new URL(itemUrlStr).openConnection();
+                conn = openConnection(itemUrlStr);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                 conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -186,7 +205,7 @@ public class AudiobookshelfClient {
                         if (callback != null) callback.onError("HTTP " + code);
                     });
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Log.e(TAG, "Error fetching item details", e);
                 mainHandler.post(() -> {
                     if (callback != null) callback.onError(e.getMessage());
@@ -209,7 +228,7 @@ public class AudiobookshelfClient {
                 String normalizedUrl = normalizeUrl(serverUrl);
                 String cleanUrl = normalizedUrl + "/login";
                 URL url = new URL(cleanUrl);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = openConnection(url);
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                 conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -222,7 +241,7 @@ public class AudiobookshelfClient {
                 body.put("username", username);
                 body.put("password", password);
 
-                byte[] postBytes = body.toString().getBytes(StandardCharsets.UTF_8);
+                byte[] postBytes = body.toString().getBytes(UTF_8);
                 try (OutputStream os = conn.getOutputStream()) {
                     os.write(postBytes);
                     os.flush();
@@ -259,7 +278,7 @@ public class AudiobookshelfClient {
                     }
                     postError(callback, errorMsg);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Log.e(TAG, "Login error", e);
                 postError(callback, "Connection failed: " + e.getMessage());
             } finally {
@@ -280,7 +299,7 @@ public class AudiobookshelfClient {
                 mainHandler.post(() -> {
                     if (callback != null) callback.onSuccess(libraries);
                 });
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Log.e(TAG, "Error fetching libraries", e);
                 mainHandler.post(() -> {
                     if (callback != null) callback.onError(e.getMessage());
@@ -292,7 +311,7 @@ public class AudiobookshelfClient {
     private List<LibraryInfo> fetchLibrariesInternal(String serverUrl, String token) throws Exception {
         String cleanUrl = normalizeUrl(serverUrl) + "/api/libraries";
         URL url = new URL(cleanUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = openConnection(url);
         try {
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
@@ -334,7 +353,7 @@ public class AudiobookshelfClient {
                 String cleanBase = normalizeUrl(serverUrl);
                 String cleanUrl = cleanBase + "/api/libraries/" + libraryId + "/items?limit=0";
                 URL url = new URL(cleanUrl);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = openConnection(url);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                 conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -417,7 +436,7 @@ public class AudiobookshelfClient {
                         if (callback != null) callback.onError("Failed to fetch books: HTTP " + code);
                     });
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Log.e(TAG, "Error fetching library books", e);
                 mainHandler.post(() -> {
                     if (callback != null) callback.onError("Error loading books: " + e.getMessage());
@@ -457,7 +476,7 @@ public class AudiobookshelfClient {
 
                 try {
                     String itemUrlStr = cleanBase + "/api/items/" + itemId + "?expanded=1";
-                    HttpURLConnection itemConn = (HttpURLConnection) new URL(itemUrlStr).openConnection();
+                    HttpURLConnection itemConn = openConnection(itemUrlStr);
                     itemConn.setRequestMethod("GET");
                     itemConn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                     itemConn.setReadTimeout(READ_TIMEOUT_MS);
@@ -529,7 +548,7 @@ public class AudiobookshelfClient {
                 }
 
                 URL url = new URL(downloadUrlStr);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = openConnection(url);
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                 conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -548,7 +567,7 @@ public class AudiobookshelfClient {
                         if (!redirectUrl.contains("token=")) {
                             redirectUrl += (redirectUrl.contains("?") ? "&" : "?") + "token=" + token;
                         }
-                        conn = (HttpURLConnection) new URL(redirectUrl).openConnection();
+                        conn = openConnection(redirectUrl);
                         conn.setRequestProperty("Authorization", "Bearer " + token);
                         conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                         conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -716,7 +735,7 @@ public class AudiobookshelfClient {
                 }
                 String cleanBase = normalizeUrl(serverUrl);
                 String playUrlStr = cleanBase + "/api/items/" + itemId + "/play";
-                conn = (HttpURLConnection) new URL(playUrlStr).openConnection();
+                conn = openConnection(playUrlStr);
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                 conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -734,7 +753,7 @@ public class AudiobookshelfClient {
                 body.put("mediaPlayer", "MediaPlayer");
                 body.put("forceDirectPlay", true);
 
-                byte[] postBytes = body.toString().getBytes(StandardCharsets.UTF_8);
+                byte[] postBytes = body.toString().getBytes(UTF_8);
                 try (OutputStream os = conn.getOutputStream()) {
                     os.write(postBytes);
                     os.flush();
@@ -794,7 +813,7 @@ public class AudiobookshelfClient {
                 // 1. Primary: GET /api/items/{itemId}?expanded=1 (standard across all ABS versions)
                 try {
                     String itemUrlStr = cleanBase + "/api/items/" + itemId + "?expanded=1";
-                    conn = (HttpURLConnection) new URL(itemUrlStr).openConnection();
+                    conn = openConnection(itemUrlStr);
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                     conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -831,7 +850,7 @@ public class AudiobookshelfClient {
                 if (!found || progressMs <= 0) {
                     try {
                         String progressUrlStr = cleanBase + "/api/me/progress/" + itemId;
-                        conn = (HttpURLConnection) new URL(progressUrlStr).openConnection();
+                        conn = openConnection(progressUrlStr);
                         conn.setRequestMethod("GET");
                         conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                         conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -901,7 +920,7 @@ public class AudiobookshelfClient {
                 // 1. Primary: POST /api/session/local (universal ABS offline/local session sync endpoint)
                 try {
                     String localSessionUrl = cleanBase + "/api/session/local";
-                    conn = (HttpURLConnection) new URL(localSessionUrl).openConnection();
+                    conn = openConnection(localSessionUrl);
                     conn.setRequestMethod("POST");
                     conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                     conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -926,7 +945,7 @@ public class AudiobookshelfClient {
                     deviceInfo.put("deviceId", "audeyshelf-android");
                     localSession.put("deviceInfo", deviceInfo);
 
-                    byte[] postBytes = localSession.toString().getBytes(StandardCharsets.UTF_8);
+                    byte[] postBytes = localSession.toString().getBytes(UTF_8);
                     try (OutputStream os = conn.getOutputStream()) {
                         os.write(postBytes);
                         os.flush();
@@ -949,7 +968,7 @@ public class AudiobookshelfClient {
                 if (!success && sessionId != null && !sessionId.isEmpty()) {
                     try {
                         String syncUrl = cleanBase + "/api/session/" + sessionId + "/sync";
-                        conn = (HttpURLConnection) new URL(syncUrl).openConnection();
+                        conn = openConnection(syncUrl);
                         conn.setRequestMethod("POST");
                         conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                         conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -963,7 +982,7 @@ public class AudiobookshelfClient {
                         syncBody.put("timeListening", 30.0);
                         syncBody.put("duration", durSec);
 
-                        byte[] syncBytes = syncBody.toString().getBytes(StandardCharsets.UTF_8);
+                        byte[] syncBytes = syncBody.toString().getBytes(UTF_8);
                         try (OutputStream os = conn.getOutputStream()) {
                             os.write(syncBytes);
                             os.flush();
@@ -986,7 +1005,7 @@ public class AudiobookshelfClient {
                 // 3. Fallback/Companion: PATCH /api/me/progress/{itemId}
                 try {
                     String progressUrl = cleanBase + "/api/me/progress/" + itemId;
-                    conn = (HttpURLConnection) new URL(progressUrl).openConnection();
+                    conn = openConnection(progressUrl);
                     setHttpMethod(conn, "PATCH");
                     conn.setConnectTimeout(CONNECT_TIMEOUT_MS);
                     conn.setReadTimeout(READ_TIMEOUT_MS);
@@ -1002,7 +1021,7 @@ public class AudiobookshelfClient {
                     progressBody.put("progress", progressRatio);
                     progressBody.put("isFinished", isFinished);
 
-                    byte[] patchBytes = progressBody.toString().getBytes(StandardCharsets.UTF_8);
+                    byte[] patchBytes = progressBody.toString().getBytes(UTF_8);
                     try (OutputStream os = conn.getOutputStream()) {
                         os.write(patchBytes);
                         os.flush();
@@ -1057,7 +1076,7 @@ public class AudiobookshelfClient {
 
     private String readStream(InputStream is) throws Exception {
         if (is == null) return "";
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, UTF_8))) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

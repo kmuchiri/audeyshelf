@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.RandomAccessFile;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 /**
  * Sanitizes M4B / M4A container metadata for compatibility with legacy Android devices.
@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 public final class AudioSanitizer {
 
     private static final String TAG = "AudioSanitizer";
+    private static final Charset US_ASCII = Charset.forName("US-ASCII");
 
     public static final class PatchInfo {
         public final long fileOffset;
@@ -69,7 +70,7 @@ public final class AudioSanitizer {
                         | ((header[1] & 0xFFL) << 16)
                         | ((header[2] & 0xFFL) << 8)
                         | (header[3] & 0xFFL);
-                String type = new String(header, 4, 4, StandardCharsets.US_ASCII);
+                String type = new String(header, 4, 4, US_ASCII);
 
                 long atomHeaderSize = 8;
                 if (size == 1) { // 64-bit size

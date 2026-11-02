@@ -13,7 +13,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 public class LocalStreamProxy {
 
     private static final String TAG = "LocalStreamProxy";
+    private static final Charset US_ASCII = Charset.forName("US-ASCII");
     private static final Pattern RANGE_PATTERN = Pattern.compile("^bytes=(\\d+)-(\\d*)");
     private static final int BUFFER_SIZE = 32 * 1024;
 
@@ -155,7 +156,7 @@ public class LocalStreamProxy {
 
         try {
             socket.setSoTimeout(15000);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), US_ASCII));
             String requestLine = in.readLine();
             if (requestLine == null || requestLine.isEmpty()) return;
 
@@ -213,7 +214,7 @@ public class LocalStreamProxy {
             header.append("Connection: close\r\n");
             header.append("\r\n");
 
-            rawOut.write(header.toString().getBytes(StandardCharsets.US_ASCII));
+            rawOut.write(header.toString().getBytes(US_ASCII));
             rawOut.flush();
 
             if ("HEAD".equals(method)) {
@@ -259,7 +260,7 @@ public class LocalStreamProxy {
         try {
             OutputStream out = socket.getOutputStream();
             String res = "HTTP/1.1 " + code + " " + message + "\r\nConnection: close\r\n\r\n";
-            out.write(res.getBytes(StandardCharsets.US_ASCII));
+            out.write(res.getBytes(US_ASCII));
             out.flush();
         } catch (Exception ignored) {
         }
